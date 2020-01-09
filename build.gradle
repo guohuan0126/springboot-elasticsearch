@@ -1,0 +1,42 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.2.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+}
+
+group = 'com.irving'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+apply from: "config.gradle"
+
+repositories {
+	maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+	mavenCentral()
+}
+
+configurations {
+	compile.exclude module: 'spring-boot-starter-logging'
+}
+
+dependencies {
+	// json
+	implementation("com.alibaba:fastjson:${rootProject.fastjsonVersion}")
+	implementation('org.springframework.boot:spring-boot-starter-log4j2')
+	// swagger
+	implementation("io.springfox:springfox-swagger2:${rootProject.swagger2Version}")
+	implementation("io.springfox:springfox-swagger-ui:${rootProject.swaggerUIVersion}")
+	// lombok
+	compileOnly("org.projectlombok:lombok:${rootProject.lombokVersion}")
+	annotationProcessor("org.projectlombok:lombok:${rootProject.lombokVersion}")
+	testCompileOnly("org.projectlombok:lombok:${rootProject.lombokVersion}")
+	testAnnotationProcessor("org.projectlombok:lombok:${rootProject.lombokVersion}")
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}

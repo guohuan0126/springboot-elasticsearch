@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{cus_id}] [%t] %c:%m%n</Property>
+        <Property name="LOG_PATTERN_NO_CLASS">%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{cus_id}] [%t] %m%n</Property>
+        <Property name="LOG_LOCATION">
+            /Users/irving/logs/springboot-elasticsearch
+        </Property>
+    </Properties>
+    <Loggers>
+        <Root level="info">
+            <!--console级别,会进入catalina.out,线上不要-->
+            <AppenderRef ref="Console"/>
+            <!--info级别日志-->
+            <AppenderRef ref="InfoRollingFile"/>
+            <!--warn级别日志-->
+            <AppenderRef ref="WarnRollingFile"/>
+            <!--error级别日志-->
+            <AppenderRef ref="ErrorRollingFile"/>
+        </Root>
+
+        <!--配置logers：级别、使用的输出地-->
+        <!-- mapper digest -->
+        <Logger name="MapperDigest" level="info" additivity="false">
+            <appender-ref ref="MapperRollingFile" level="info"/>
+        </Logger>
+
+        <!-- mytatis -->
+        <Logger name="ai.silot.mvp.onboarding.mapper" level="debug" additivity="false">
+            <appender-ref ref="Console" level="debug"/>
+        </Logger>
+        <Logger name="org.mybatis" level="debug" additivity="false">
+            <appender-ref ref="Console" level="debug"/>
+        </Logger>
+        <!-- health-check -->
+        <Logger name="HealthCheck" level="info" additivity="false">
+            <appender-ref ref="HealthCheckRollingFile" level="info"/>
+        </Logger>
+    </Loggers>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <RollingFile name="InfoRollingFile" fileName="${LOG_LOCATION}/info.log"
+                     filePattern="${LOG_LOCATION}/info.log.%d{yyyy-MM-dd}">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <RollingFile name="WarnRollingFile" fileName="${LOG_LOCATION}/warn.log"
+                     filePattern="${LOG_LOCATION}/warn.log.%d{yyyy-MM-dd}">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <RollingFile name="ErrorRollingFile" fileName="${LOG_LOCATION}/error.log"
+                     filePattern="${LOG_LOCATION}/error.log.%d{yyyy-MM-dd}">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+
+        <RollingFile name="MapperRollingFile" fileName="${LOG_LOCATION}/mapper-digest.log"
+                     filePattern="${LOG_LOCATION}/mapper-digest.log.%d{yyyy-MM-dd}">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN_NO_CLASS}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+
+        <RollingFile name="MybatisRollingFile" fileName="${LOG_LOCATION}/mybatis.log"
+                     filePattern="${LOG_PATTERN}/mybatis.log.%d{yyyy-MM-dd}">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1 GB"/>
+            </Policies>
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <RollingFile name="HealthCheckRollingFile" fileName="${LOG_LOCATION}/health-check.log"
+                     filePattern="${LOG_LOCATION}/health-check.log.%d{yyyy-MM-dd}">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN_NO_CLASS}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+    </Appenders>
+</Configuration>

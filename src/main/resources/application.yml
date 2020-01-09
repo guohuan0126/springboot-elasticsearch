@@ -1,0 +1,19 @@
+
+server:
+  port: 15001
+# elasticsearch集群名称，默认的是elasticsearch
+spring:
+  data:
+    elasticsearch:
+      cluster-name: docker-cluster
+  #节点的地址 注意api模式下端口号是9300，千万不要写成9200
+      cluster-nodes: 60.205.188.115
+      port: 9300
+  #是否开启本地存储
+      repositories:
+        enable: true
+
+logging:
+  config: classpath:log4j2.xml
+  level:
+    com.example.demo.dao: debug
