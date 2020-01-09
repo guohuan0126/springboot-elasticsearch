@@ -33,3 +33,5 @@ out/
 !/.idea/
 !/.gradle/
 !/.idea/
+!/gradle/
+!/.idea/
